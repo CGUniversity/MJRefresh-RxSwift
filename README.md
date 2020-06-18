@@ -17,17 +17,26 @@ UIControl可以多次addTarget和订阅ControlEvent.editChange等状态，
 ## 解决
 一对多？使用KVO对MJRefreshState进行观察即可！
 
+>>> 注：以下代码中的```~>```操作符是RxBinding库提供的绑定操作符。
+
 ## 使用方式
 
-1. 导入文件。
+1. 导入MJRefresh+RxSwift.swift文件。
 2. 对状态订阅
 
 ```
-header.state.filter({$0 == .refreshing})
+header.rx.state.filter({$0 == .refreshing})
 .subscribe{
 }
 ```
-3. 对刷新订阅
+
+3. 状态绑定到刷新控件
+```
+/// 开始刷新。控件进入刷新状态
+Observable.just(MJRefreshState.refreshing) ~> header.rx.state
+```
+
+4. 大多数情况都是仅关注刷新，用以下便捷方式
 
 ```
 header.refresh
@@ -35,17 +44,39 @@ header.refresh
 }
 ```
 
+
 ## UIScrolView扩展
 
-如果使用了MVVM架构，则可以导入UIScrollView+Rxswit.swift文件。
+如果使用了MVVM架构：
+在ViewModel只有一个MJeader或者MJFooter操作传入，直接在viewModel里发射出需要的刷新状态，在View里订阅或绑定即可。
 
-在viewModel里发射刷新操作即可。
+如果同时有refresh和loadMore，需要对不同类型的控件分别发送状态， 则可以导入UIScrollView+Rxswit.swift文件。
+提供了常见的操作类型MJRefreshAction：
+```
+enum MJRefreshAction {
+    /// 开始刷新
+    case begainRefresh
+    /// 停止刷新
+    case stopRefresh
+    /// 开始加载更多
+    case begainLoadmore
+    /// 停止加载更多
+    case stopLoadmore
+    /// 显示无更多数据
+    case showNomoreData
+    /// 重置无更多数据
+    case resetNomoreData
+}
+```
+在viewModel里发射所需的刷新操作即可。
 
-在View层对操作进行监听（绑定）。
+
+然后在View层对操作进行监听（绑定）。
 
 ```
-viewModel.output.refreshAction ~> self.collectionView.rx.refreshAction,
+viewModel.output.refreshAction ~> self.collectionView.rx.refreshAction
 ```
+
 ## 特色
 
 可以多处监听刷新状态可。
