@@ -70,7 +70,25 @@ enum MJRefreshAction {
     case resetNomoreData
 }
 ```
-在viewModel里发射所需的刷新操作即可。
+在viewModel里发射所需的刷新操作即可。示例：
+```
+/// 刷新
+refresh.flatMapLatest{
+    requestDatas()
+}
+.subscrip{
+    self.refreshSubject.onNext(.stopRefresh)//停止刷新
+    self.refreshSubject.onNext(.resetNomoreData)//重设无更多数据
+}
+/// 加载更多
+loadMore.flatMapLatest{
+    requestDatas()
+}
+.subscrip{
+    self.refreshSubject.onNext(.stopLoadmore)//停止加载更多
+    self.refreshSubject.onNext(.showNomoreData)//无更多数据
+}
+```
 
 
 然后在View层对操作进行监听（绑定）。
