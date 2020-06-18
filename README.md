@@ -49,9 +49,10 @@ header.refresh
 
 **如果使用了MVVM架构，可能需要这个扩展**
 
-在ViewModel只有一个MJeader或者MJFooter操作传入，直接在viewModel里发射出需要的刷新状态，在View里订阅或绑定即可。
+在ViewModel只有一个Refresh或者LoadMore操作传入，直接在viewModel里发射出需要的MJRefreshState刷新状态，在View里订阅或绑定即可。
 
-如果同时有refresh和loadMore，需要对不同类型的控件分别发送状态， 则可以导入UIScrollView+Rxswit.swift文件。
+如果同时有Refresh和LoadMore，需要对不同类型的控件分别发送状态， 则可以导入UIScrollView+Rxswit.swift文件。
+
 提供了常见的操作类型MJRefreshAction：
 ```
 enum MJRefreshAction {
