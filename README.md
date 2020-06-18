@@ -119,4 +119,13 @@ print"refresh2"
 }
 ```
 
+结果
+```
+state1
+state2
+refresh1
+refresh2
+```
+
+
 
