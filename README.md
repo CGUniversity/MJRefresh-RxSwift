@@ -99,7 +99,7 @@ viewModel.output.refreshAction ~> self.collectionView.rx.refreshAction
 
 ## 特色
 
-可以多处监听刷新状态可。
+可以多处监听刷新状态。
 ```
 header.state.filter({$0 == .refreshing})
 .subscribe{
