@@ -39,7 +39,7 @@ Observable.just(MJRefreshState.refreshing) ~> header.rx.state
 4. 大多数情况都是仅关注刷新，用以下便捷方式
 
 ```
-header.refresh
+header.rx.refresh
 .subscribe{
 }
 ```
@@ -101,19 +101,19 @@ viewModel.output.refreshAction ~> self.collectionView.rx.refreshAction
 
 可以多处监听刷新状态。
 ```
-header.state.filter({$0 == .refreshing})
+header.rx.state.filter({$0 == .refreshing})
 .subscribe{
 print"state1"
 }
-header.state.filter({$0 == .refreshing})
+header.rx.state.filter({$0 == .refreshing})
 .subscribe{
 print"state2"
 }
-header.refresh
+header.rx.refresh
 .subscribe{
 print"refresh1"
 }
-header.refresh
+header.rx.refresh
 .subscribe{
 print"refresh2"
 }
